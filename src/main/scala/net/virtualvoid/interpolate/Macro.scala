@@ -16,7 +16,9 @@ object MacroImpl {
     val expr = c.Expr[String](Literal(Constant(exprS)))
     val first = args.head
 
-    reify(expr.splice + "\n\n> " + first.splice.toString)
+    val res = reify(expr.splice + "\n\n> " + first.splice.toString)
+    // crashes without setting the outer position because of SI-6743
+    c.Expr[String](atPos(p)(res.tree))
   }
 }
 

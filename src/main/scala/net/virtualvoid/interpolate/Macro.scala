@@ -16,8 +16,6 @@ object MacroImpl {
 
     val expr = c.literal(sourceOf(c.prefix))
 
-    val first = args.head
-
     def argStringExpr(arg: c.Expr[Any]): c.Expr[String] = {
       val source = c.literal(sourceOf(arg))
       reify(source.splice + " = " + arg.splice.toString)

@@ -9,10 +9,17 @@ object Test extends App {
     factorial(3) } }" +
   """)
 
+  def thrower() = throw new RuntimeException("totally wrong")
+
   println(
   a"""
    first
    ${ 1+1 }
    second
-   ${ 2+2 }""")
+   ${ 2+2 }
+   third
+   ${ 1 / 0 }
+   fourth
+   ${ thrower() }
+   """)
 }

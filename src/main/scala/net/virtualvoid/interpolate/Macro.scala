@@ -2,6 +2,7 @@ package net.virtualvoid.interpolate
 
 import language.experimental.macros
 import reflect.macros.Context
+import util.control.NonFatal
 
 object MacroImpl {
   def body(c: Context { type PrefixType = ATest.ACtx })(args: c.Expr[Any]*): c.Expr[String] = {
@@ -18,7 +19,12 @@ object MacroImpl {
 
     def argStringExpr(arg: c.Expr[Any]): c.Expr[String] = {
       val source = c.literal(sourceOf(arg))
-      reify(source.splice + " = " + arg.splice.toString)
+      reify(
+        source.splice + " = " + (try arg.splice.toString catch {
+          case NonFatal(x) =>
+            s"${Console.RED} Error: ${x.getMessage} ${Console.RESET}"
+        })
+      )
     }
     def liftSeq[T](els: Seq[c.Expr[T]]): c.Expr[Seq[T]] =
       c.Expr[Seq[T]](Apply(Ident(definitions.List_apply), els.map(_.tree).toList))

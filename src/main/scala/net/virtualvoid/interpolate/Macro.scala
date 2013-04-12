@@ -42,10 +42,13 @@ object MacroImpl {
       case LiteralStringComponent(str) => c.literal(str)
       case ExpressionComponent(exp) => argStringExpr(exp)
     }
-    def components: Seq[Component] =
-      (stringParts.map(LiteralStringComponent), args.map(ExpressionComponent)).zipped.flatMap {
+    def components: Seq[Component] = {
+      val stringComps = stringParts.map(LiteralStringComponent)
+      val exprComps = args.map(ExpressionComponent)
+      (stringComps, exprComps).zipped.flatMap {
         case (a, b) => Seq(a, b)
-      }
+      } ++ (if (stringComps.size > args.size) Seq(stringComps.last) else Nil)
+    }
 
     val res: c.Expr[String] =
       reify(liftSeq(components.map(showComponent(_))).splice.mkString)

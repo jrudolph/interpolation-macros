@@ -8,7 +8,7 @@ object Test extends App {
       if (n <= 1) n else (n * factorial(n - 1))
 
     factorial(3)
-  } }""")
+  }""")
 
   def thrower() = throw new RuntimeException("totally wrong")
 
@@ -21,5 +21,6 @@ object Test extends App {
   third
   ${ 1 / 0 }
   fourth
-  ${ thrower() }""")
+  ${ thrower() }" +
+  suffix""")
 }

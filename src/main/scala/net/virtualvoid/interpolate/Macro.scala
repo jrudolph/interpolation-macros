@@ -23,7 +23,7 @@ object MacroImpl {
       reify(source.splice + " = " + arg.splice.toString)
     }
     def liftSeq[T](els: Seq[c.Expr[T]]): c.Expr[Seq[T]] =
-      c.Expr[Seq[T]](Apply(definitions.List_apply, els.map(_.tree): _*))
+      c.Expr[Seq[T]](Apply(Ident(definitions.List_apply), els.map(_.tree).toList))
 
     //val Apply(_, args) = c.prefix.tree
 

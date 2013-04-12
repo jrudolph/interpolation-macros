@@ -8,4 +8,11 @@ object Test extends App {
 
     factorial(3) } }" +
   """)
+
+  println(
+  a"""
+   first
+   ${ 1+1 }
+   second
+   ${ 2+2 }""")
 }
